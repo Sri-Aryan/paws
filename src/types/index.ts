@@ -5,6 +5,8 @@ export interface Hospital {
   distance: string;
   rating: number;
   services: string[];
+  about: string;
+  phone: string;
   timings: string;
   address: string;
   image?: string;
