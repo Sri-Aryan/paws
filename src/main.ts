@@ -47,6 +47,11 @@ function navigate(route: string) {
   app.innerHTML = ''; // clear current content
   window.closePanel(); // close panel on navigation
   
+  // Restart page enter animation
+  app.classList.remove('page-enter');
+  void app.offsetWidth; // force reflow
+  app.classList.add('page-enter');
+  
   switch(route) {
     case 'discover':
       renderDiscover(app);
