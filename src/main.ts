@@ -1,4 +1,3 @@
-import './style.css';
 import { renderDiscover } from './pages/discover';
 import { renderRecords } from './pages/records';
 import { renderAppointments } from './pages/appointments';
