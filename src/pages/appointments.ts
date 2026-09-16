@@ -22,31 +22,34 @@ export function renderAppointments(container: HTMLElement) {
     <div class="section">
       <div class="grid">
         ${mockAppointments.map(a => `
-          <div class="card" data-id="${a.id}">
-            <div class="flex justify-between items-center mb-8">
-              <span class="badge primary">${a.type}</span>
-              <span class="status-pill ${statusClass[a.status] || 'completed'}">${a.status}</span>
+          <a href="#" class="blog-card" data-id="${a.id}">
+            <div class="card-inner">
+              <div class="card-content">
+                <div class="card-meta">
+                  <span class="card-tag">${a.type}</span>
+                  <span class="status-pill ${statusClass[a.status] || 'completed'}">${a.status}</span>
+                </div>
+                <div class="flex items-center gap-3 mb-4">
+                  ${a.image ? `<img src="${a.image}" alt="${a.doctor}" class="avatar">` : ''}
+                  <h3 class="card-title" style="margin: 0;">${a.doctor}</h3>
+                </div>
+                <p class="meta mt-2 icon-text">
+                  <svg class="icon icon-sm" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path></svg>
+                  ${a.pet}
+                </p>
+                <p class="meta mt-2 icon-text">
+                  <svg class="icon icon-sm" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                  ${a.date} at ${a.time}
+                </p>
+                <div class="card-cta" style="margin-top: auto; padding-top: 16px;">
+                  <span>Manage appointment</span>
+                  <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="card-cta-icon">
+                    <path d="M5 12h14M12 5l7 7-7 7" />
+                  </svg>
+                </div>
+              </div>
             </div>
-            <div class="flex items-center gap-3">
-              ${a.image ? `<img src="${a.image}" alt="${a.doctor}" class="avatar">` : ''}
-              <h3 style="margin: 0;">${a.doctor}</h3>
-            </div>
-            <p class="meta mt-4 icon-text">
-              <svg class="icon icon-sm" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path></svg>
-              ${a.pet}
-            </p>
-            <p class="meta mt-4 icon-text">
-              <svg class="icon icon-sm" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
-              ${a.date} at ${a.time}
-            </p>
-            
-            <div class="flex gap-4 mt-4">
-              ${a.type === 'Video Consult'
-                ? '<button class="btn w-full" style="pointer-events: none;">Join call</button>'
-                : '<button class="btn w-full" style="pointer-events: none;">Directions</button>'}
-              <button class="btn btn-secondary w-full" style="pointer-events: none;">Reschedule</button>
-            </div>
-          </div>
+          </a>
         `).join('')}
       </div>
     </div>
@@ -68,16 +71,17 @@ export function renderAppointments(container: HTMLElement) {
       </div>
     </div>
   `;
-  
+
   const wrapper = document.createElement('div');
   wrapper.innerHTML = content;
-  
+
   wrapper.addEventListener('click', (e) => {
-    const card = (e.target as HTMLElement).closest('.card') as HTMLElement;
+    const card = (e.target as HTMLElement).closest('.blog-card') as HTMLElement;
     if (card) {
+      e.preventDefault();
       const id = card.dataset.id;
       const item = mockAppointments.find(a => a.id === id);
-      if(item) {
+      if (item) {
         window.openPanel(`
           <div class="flex items-center gap-4 mb-4">
             ${item.image ? `<img src="${item.image}" alt="${item.doctor}" class="avatar-lg" style="margin-bottom:0">` : ''}
@@ -95,8 +99,8 @@ export function renderAppointments(container: HTMLElement) {
           ${item.clinicAddress ? `<h3>Clinic Address</h3><p>${item.clinicAddress}</p>` : ''}
           <div class="flex gap-4 mt-4">
              ${item.type === 'Video Consult'
-               ? `<button class="btn w-full">Join call</button>`
-               : `<button class="btn w-full">Get Directions</button>`}
+            ? `<button class="btn w-full">Join call</button>`
+            : `<button class="btn w-full">Get Directions</button>`}
              <button class="btn btn-secondary w-full">Reschedule</button>
           </div>
         `);
