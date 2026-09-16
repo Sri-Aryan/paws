@@ -116,7 +116,7 @@ export const mockArticles: Article[] = [
     author: 'Dr. Meera Nair',
     readTime: '3 min',
     content: '<p>Heatstroke is a life-threatening emergency. Dogs and cats do not sweat like humans; they rely primarily on panting to cool down, which is inefficient in high humidity or extreme heat.</p><h3>Immediate Actions</h3><ol><li>Move the pet to a shaded or air-conditioned area immediately.</li><li>Apply cool (NOT ice-cold) water to their body, particularly the belly, paws, and groin.</li><li>Offer fresh water to drink, but do not force it.</li><li>Get to the nearest veterinary emergency clinic immediately.</li></ol>',
-    image: 'https://images.unsplash.com/photo-1537151608804-ea2f1ea14a15?auto=format&fit=crop&w=400&q=80',
+    image: 'https://images.unsplash.com/photo-1583337130417-3346a1be7dee?auto=format&fit=crop&w=400&q=80',
   },
 ];
 
