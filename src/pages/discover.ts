@@ -22,20 +22,35 @@ function renderHospitalGrid() {
   }
 
   return filteredHospitals.map(h => `
-    <div class="card" data-id="${h.id}" data-type="hospital">
-      ${h.image ? `<div class="card-image-wrapper"><img src="${h.image}" alt="${h.name}"></div>` : ''}
-      <h3>${h.name}</h3>
-      <p class="meta mt-4 icon-text">
-        <svg class="icon icon-sm" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
-        ${h.location}, ${h.distance} away
-      </p>
-      <p class="mt-4 rating-row icon-text">
-        <span class="rating">★ ${h.rating}</span>
-      </p>
-      <div class="mt-4">
-        ${h.services.map(s => `<span class="badge">${s}</span> `).join('')}
+    <a href="#" class="blog-card" data-id="${h.id}" data-type="hospital">
+      <div class="card-inner">
+        ${h.image ? `
+        <div class="card-image-container">
+          <img src="${h.image}" alt="${h.name}" class="card-image">
+        </div>
+        ` : ''}
+        <div class="card-content">
+          <div class="card-meta">
+            <span class="card-tag">Clinic</span>
+            <span class="card-date">★ ${h.rating}</span>
+          </div>
+          <h3 class="card-title">${h.name}</h3>
+          <p class="meta mt-2 icon-text">
+            <svg class="icon icon-sm" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+            ${h.location}, ${h.distance} away
+          </p>
+          <div class="mt-4 mb-4">
+            ${h.services.map(s => `<span class="badge">${s}</span> `).join('')}
+          </div>
+          <div class="card-cta" style="margin-top: auto;">
+            <span>View Details</span>
+            <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="card-cta-icon">
+              <path d="M5 12h14M12 5l7 7-7 7" />
+            </svg>
+          </div>
+        </div>
       </div>
-    </div>
+    </a>
   `).join('');
 }
 
@@ -61,22 +76,33 @@ function renderDoctorGrid() {
   }
 
   return filteredDoctors.map(d => `
-    <div class="card flex flex-col justify-between" data-id="${d.id}" data-type="doctor">
-      <div>
-        <div class="flex items-center gap-4 mb-8">
-          ${d.image ? `<img src="${d.image}" alt="${d.name}" class="avatar">` : ''}
-          <h3>${d.name}</h3>
+    <a href="#" class="blog-card" data-id="${d.id}" data-type="doctor">
+      <div class="card-inner">
+        <div class="card-content">
+          <div class="card-meta">
+            <span class="card-tag">${d.specialty}</span>
+            <span class="card-date">★ ${d.rating} (${d.reviews})</span>
+          </div>
+          
+          <div class="flex items-center gap-3 mb-4">
+            ${d.image ? `<img src="${d.image}" alt="${d.name}" class="avatar">` : ''}
+            <h3 class="card-title" style="margin: 0;">${d.name}</h3>
+          </div>
+          
+          <p class="meta mt-2 icon-text">
+            <svg class="icon icon-sm" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg>
+            ${d.experience}
+          </p>
+          
+          <div class="card-cta" style="margin-top: auto; padding-top: 16px;">
+            <span>View profile</span>
+            <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="card-cta-icon">
+              <path d="M5 12h14M12 5l7 7-7 7" />
+            </svg>
+          </div>
         </div>
-        <p class="meta mt-4 icon-text">
-          <svg class="icon icon-sm" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg>
-          ${d.specialty}, ${d.experience}
-        </p>
-        <p class="mt-4 rating-row">
-          <span class="rating">★ ${d.rating}</span> (${d.reviews} reviews)
-        </p>
       </div>
-      <button class="btn btn-secondary mt-4 w-full" style="pointer-events: none;">View profile</button>
-    </div>
+    </a>
   `).join('');
 }
 
@@ -98,7 +124,7 @@ export function renderDiscover(container: HTMLElement) {
             <svg class="icon icon-sm" style="color: var(--ink-soft)" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
             <input type="text" placeholder="Search hospitals, specialists..." style="border:none; outline:none; width:100%; background:transparent;" />
           </div>
-          <button class="btn">Search</button>
+          <button id="search-btn" class="btn" style="transition: background 0.3s, transform 0.3s; transform-origin: center;">Search</button>
         </div>
       </div>
     </div>
@@ -163,8 +189,9 @@ export function renderDiscover(container: HTMLElement) {
     }
 
     // Handle card clicks
-    const card = target.closest('.card') as HTMLElement;
+    const card = target.closest('.blog-card') as HTMLElement;
     if (card) {
+      e.preventDefault();
       const type = card.dataset.type;
       const id = card.dataset.id;
       if (type === 'hospital') {
@@ -207,6 +234,18 @@ export function renderDiscover(container: HTMLElement) {
       }
     }
   });
+
+  const searchBtn = wrapper.querySelector('#search-btn') as HTMLElement;
+  if (searchBtn) {
+    // Hover scale 1.05
+    searchBtn.addEventListener('mouseenter', () => {
+      searchBtn.style.transform = 'scale(1.05)';
+    });
+    
+    searchBtn.addEventListener('mouseleave', () => {
+      searchBtn.style.transform = 'scale(1)';
+    });
+  }
 
   // Only append wrapper if we haven't already rendered it, though router wipes container anyway
   container.appendChild(wrapper);
