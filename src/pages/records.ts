@@ -13,12 +13,27 @@ export function renderRecords(container: HTMLElement) {
       </div>
       <div class="grid">
         ${mockReminders.map(r => `
-          <div class="reminder-card ${r.urgency}" data-id="${r.id}" data-type="reminder" style="cursor: pointer; transition: transform 0.15s ease;" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='none'">
-            <span class="badge">${r.type}</span>
-            <h3 class="mt-4">${r.task}</h3>
-            <p class="meta mt-4">${r.time}</p>
-            <p class="status-line">${r.status}</p>
-          </div>
+          <a href="#" class="blog-card" data-id="${r.id}" data-type="reminder">
+            <div class="card-inner" style="border-left: 3px solid ${r.urgency === 'due-soon' ? 'var(--accent)' : r.urgency === 'overdue' ? '#B4432A' : 'var(--primary)'}">
+              <div class="card-content">
+                <div class="card-meta">
+                  <span class="card-tag">${r.type}</span>
+                  <span class="card-date" style="color: ${r.urgency === 'due-soon' ? 'var(--accent)' : r.urgency === 'overdue' ? '#B4432A' : 'var(--primary)'}">${r.status}</span>
+                </div>
+                <h3 class="card-title">${r.task}</h3>
+                <p class="meta mt-2 icon-text">
+                  <svg class="icon icon-sm" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                  ${r.time}
+                </p>
+                <div class="card-cta" style="margin-top: auto; padding-top: 16px;">
+                  <span>Manage</span>
+                  <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="card-cta-icon">
+                    <path d="M5 12h14M12 5l7 7-7 7" />
+                  </svg>
+                </div>
+              </div>
+            </div>
+          </a>
         `).join('')}
       </div>
     </div>
@@ -33,14 +48,31 @@ export function renderRecords(container: HTMLElement) {
       </div>
       <div class="grid">
         ${mockRecords.map(r => `
-          <div class="card flex flex-col justify-between" data-id="${r.id}" data-type="record">
-            <div>
-              <h3>${r.title}</h3>
-              <p class="meta mt-4">${r.pet} · ${r.date}</p>
-              <p class="meta mt-2">${r.type}, ${r.size}</p>
+          <a href="#" class="blog-card" data-id="${r.id}" data-type="record">
+            <div class="card-inner">
+              <div class="card-content">
+                <div class="card-meta">
+                  <span class="card-tag">Record</span>
+                  <span class="card-date">${r.date}</span>
+                </div>
+                <h3 class="card-title">${r.title}</h3>
+                <p class="meta mt-2 icon-text">
+                  <svg class="icon icon-sm" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg>
+                  ${r.pet}
+                </p>
+                <p class="meta mt-2 icon-text">
+                  <svg class="icon icon-sm" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+                  ${r.type}, ${r.size}
+                </p>
+                <div class="card-cta" style="margin-top: auto; padding-top: 16px;">
+                  <span>View document</span>
+                  <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="card-cta-icon">
+                    <path d="M5 12h14M12 5l7 7-7 7" />
+                  </svg>
+                </div>
+              </div>
             </div>
-            <button class="btn btn-secondary mt-4 w-full" style="pointer-events: none;">View document</button>
-          </div>
+          </a>
         `).join('')}
       </div>
     </div>
@@ -51,8 +83,9 @@ export function renderRecords(container: HTMLElement) {
   
   wrapper.addEventListener('click', (e) => {
     const target = e.target as HTMLElement;
-    const card = target.closest('.card') || target.closest('.reminder-card');
+    const card = target.closest('.blog-card');
     if (card) {
+      e.preventDefault();
       const type = (card as HTMLElement).dataset.type;
       const id = (card as HTMLElement).dataset.id;
       if (type === 'reminder') {
